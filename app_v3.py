@@ -802,13 +802,28 @@ def _sh(icon,title,desc,bg):
         <div><div class='sh-title'>{title}</div>
         <div class='sh-desc'>{desc}</div></div></div>""",unsafe_allow_html=True)
 
-def _df(w=8,h=3.2):
-    fig,ax=plt.subplots(figsize=(w,h))
-    fig.patch.set_facecolor("#07101f"); ax.set_facecolor("#080f1c")
-    ax.tick_params(colors="#3d6080",labelsize=8)
-    for sp in ax.spines.values(): sp.set_edgecolor("#1a2a40")
-    ax.xaxis.label.set_color("#3d6080"); ax.yaxis.label.set_color("#3d6080")
-    ax.title.set_color("#7dd3fc"); return fig,ax
+def _df(w=8, h=3.2):
+    if not MATPLOTLIB_AVAILABLE:
+        return None, None
+
+    fig, ax = plt.subplots(figsize=(w, h))
+    fig.patch.set_facecolor("#07101f")
+    ax.set_facecolor("#080f1c")
+
+    ax.tick_params(colors="#3d6080", labelsize=8)
+
+    for sp in ax.spines.values():
+        sp.set_edgecolor("#1a2a40")
+
+    ax.xaxis.label.set_color("#3d6080")
+    ax.yaxis.label.set_color("#3d6080")
+    ax.title.set_color("#7dd3fc")
+
+    fig, ax = _df(8,3)
+
+if fig is None:
+    st.warning("⚠ Graph not available in cloud version")
+    return None
 
 
 # ════════════════════════════════════════════════════════════════════
