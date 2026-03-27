@@ -984,9 +984,10 @@ def ml_pred(tv,T,H,pop,hr,we,wcs,rqs):
 # CHARTS
 # ════════════════════════════════════════════════════════════════════
 def _bar(counts):
-    if not counts: return None
+    if not MATPLOTLIB_AVAILABLE or not counts: return None
     labels=[k for k,v in counts.items() if v>0]; vals=[counts[k] for k in labels]
     fig,ax=_df(7,3)
+    if ax is None: return None
     bars=ax.bar(labels,vals,color=["#22c55e"]*len(labels),
                 edgecolor="#1a2a40",linewidth=.5,width=.6)
     for bar,v in zip(bars,vals):
@@ -997,6 +998,7 @@ def _bar(counts):
     ax.grid(axis="y",alpha=.15,color="#1e3a5f"); plt.tight_layout(); return fig
 
 def _pie(counts):
+    if not MATPLOTLIB_AVAILABLE: return None
     f={k:v for k,v in counts.items() if v>0}
     if not f or sum(f.values())==0: return None
     fig,ax=plt.subplots(figsize=(4,3.5))
@@ -1009,8 +1011,9 @@ def _pie(counts):
     plt.tight_layout(); return fig
 
 def _trend(hist):
-    if len(hist)<2: return None
+    if not MATPLOTLIB_AVAILABLE or len(hist)<2: return None
     arr=list(hist); fig,ax=_df(8,3)
+    if ax is None: return None
     ax.plot(range(len(arr)),arr,color="#22c55e",lw=2,marker="o",ms=3,markerfacecolor="#16a34a")
     ax.fill_between(range(len(arr)),arr,alpha=.12,color="#22c55e")
     ax.set_title("Traffic Score Trend",pad=8,fontsize=11)
@@ -1018,20 +1021,23 @@ def _trend(hist):
     ax.grid(alpha=.15,color="#1e3a5f"); plt.tight_layout(); return fig
 
 def _zone_chart(bins):
+    if not MATPLOTLIB_AVAILABLE: return None
     zones={}
     for b in bins: zones.setdefault(b["zone"],[]).append(b["fill"])
     zn=list(zones.keys()); av=[sum(v)/len(v) for v in zones.values()]
     fig,ax=_df(8,3)
+    if ax is None: return None
     cols=["#ef4444" if a>=80 else "#f59e0b" if a>=50 else "#22c55e" for a in av]
     bars=ax.barh(zn,av,color=cols,edgecolor="#1a2a40",linewidth=.5,height=.6)
     for bar,v in zip(bars,av):
-        ax.text(v+.5,bar.get_y()+bar.get_height()/2,f"{v:.0f}%",
+        ax.text(v+.5,bar.get_y()+bar.get_height()/2,f"{v:.0f}%%",
                 va="center",color="#cbd5e1",fontsize=8)
     ax.axvline(80,color="#ef4444",ls="--",lw=1,alpha=.5,label="Full 80%")
     ax.axvline(50,color="#f59e0b",ls="--",lw=1,alpha=.5,label="Half 50%")
     ax.set_title("Fill % by Zone",pad=8,fontsize=11); ax.set_xlabel("Fill %"); ax.set_xlim(0,112)
     ax.legend(fontsize=7,labelcolor="#94a3b8",facecolor="#080f1c")
     ax.grid(axis="x",alpha=.15,color="#1e3a5f"); plt.tight_layout(); return fig
+
 
 
 # ════════════════════════════════════════════════════════════════════
