@@ -21,13 +21,14 @@ except:
 import numpy as np
 import pandas as pd
 import requests
-import matplotlib
-matplotlib.use("Agg")
 try:
+    import matplotlib
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     MATPLOTLIB_AVAILABLE = True
 except:
     MATPLOTLIB_AVAILABLE = False
+
 from PIL import Image
 import streamlit as st
 
