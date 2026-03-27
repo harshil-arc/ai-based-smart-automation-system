@@ -22,17 +22,32 @@ USAGE:
     • Press Q to quit, S to save snapshot, F to toggle forecast chart
 """
 
-import cv2
+import streamlit as st
 import numpy as np
 import requests
-import threading
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime
 import time
-import csv
-import os
-import math
-import random
-from datetime import datetime, timedelta
-from collections import deque
+
+# Remove all cv2 imports and display logic
+
+st.title("🌦️ SmartCity Weather Monitor")
+st.write(f"**Location:** {CITY_NAME} ({CITY_LAT}°N, {CITY_LON}°E)")
+
+# Display current weather
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric("Temperature", f"{current.temperature:.1f}°C", f"{current.feels_like:.1f}°C feels like")
+with col2:
+    st.metric("Humidity", f"{current.humidity:.0f}%")
+with col3:
+    st.metric("Wind Speed", f"{current.wind_speed:.0f} km/h")
+
+# Use matplotlib instead of cv2
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+# Plot temperature, humidity, etc.
+st.pyplot(fig)
 
 # ─────────────────────────────────────────────────────────────────
 # CONFIGURATION — set your city coordinates
