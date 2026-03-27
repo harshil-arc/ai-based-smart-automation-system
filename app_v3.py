@@ -819,11 +819,7 @@ def _df(w=8, h=3.2):
     ax.yaxis.label.set_color("#3d6080")
     ax.title.set_color("#7dd3fc")
 
-    fig, ax = _df(8,3)
-
-if fig is None:
-    st.warning("⚠ Graph not available in cloud version")
-    return None
+    return fig, ax
 
 
 # ════════════════════════════════════════════════════════════════════
