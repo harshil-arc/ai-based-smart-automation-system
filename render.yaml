@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: smart-city-ai-dashboard
+    env: python
+    buildCommand: "pip install -r 'smartcityfiles by claude/requirements_v3.txt'"
+    startCommand: "cd 'smartcityfiles by claude' && streamlit run app_v3.py --server.port $PORT --server.address 0.0.0.0"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
